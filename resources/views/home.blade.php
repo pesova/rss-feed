@@ -10,7 +10,7 @@
                     Do you want to become a developer?
                 </h1>
                 <a 
-                    href="/blog"
+                    href="{{ route('blog.index') }}"
                     class="text-center bg-gray-50 text-gray-700 py-2 px-4 font-bold text-xl uppercase">
                     Read More
                 </a>
@@ -18,87 +18,30 @@
         </div>
     </div>
 
-    <div class="sm:grid grid-cols-2 gap-20 w-4/5 mx-auto py-15 border-b border-gray-200">
-        <div>
-            <img src="https://cdn.pixabay.com/photo/2014/05/03/01/03/laptop-336704_960_720.jpg" width="700" alt="">
+    <section class="relative py-20 2xl:py-40 bg-gray-400 overflow-hidden">
+        <div class="container px-4 mx-auto">
+        <div class="mb-14 text-center">
+            <h2 class="mt-8 text-5xl font-bold font-heading text-white">Latest blog</h2>
         </div>
-
-        <div class="m-auto sm:m-auto text-left w-4/5 block">
-            <h2 class="text-3xl font-extrabold text-gray-600">
-                Struggling to be a better web developer?
-            </h2>
-            
-            <p class="py-8 text-gray-500 text-s">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus.
-            </p>
-
-            <p class="font-extrabold text-gray-600 text-s pb-9">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente magnam vero nostrum! Perferendis eos molestias porro vero. Vel alias.
-            </p>
-
-            <a 
-                href="/blog"
-                class="uppercase bg-blue-500 text-gray-100 text-s font-extrabold py-3 px-8 rounded-3xl">
-                Find Out More
-            </a>
-        </div>
-    </div>
-
-    <div class="text-center p-15 bg-black text-white">
-        <h2 class="text-2xl pb-5 text-l"> 
-            I'm an expert in...
-        </h2>
-
-        <span class="font-extrabold block text-4xl py-1">
-            Ux Design
-        </span>
-        <span class="font-extrabold block text-4xl py-1">
-            Project Management
-        </span>
-        <span class="font-extrabold block text-4xl py-1">
-            Digital Strategy
-        </span>
-        <span class="font-extrabold block text-4xl py-1">
-            Backend Development
-        </span>
-    </div>
-
-    <div class="text-center py-15">
-        <span class="uppercase text-s text-gray-400">
-            Blog
-        </span>
-
-        <h2 class="text-4xl font-bold py-10">
-            Recent Posts
-        </h2>
-
-        <p class="m-auto w-4/5 text-gray-500">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque exercitationem saepe enim veritatis, eos temporibus quaerat facere consectetur qui.
-        </p>
-    </div>
-
-    <div class="sm:grid grid-cols-2 w-4/5 m-auto">
-        <div class="flex bg-yellow-700 text-gray-100 pt-10">
-            <div class="m-auto pt-4 pb-16 sm:m-auto w-4/5 block">
-                <span class="uppercase text-xs">
-                    PHP
-                </span>
-
-                <h3 class="text-xl font-bold py-10">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas necessitatibus dolorum error culpa laboriosam. Enim voluptas earum repudiandae consequuntur ad? Expedita labore aspernatur facilis quasi ex? Nemo hic placeat et?
-                </h3>
-
-                <a 
-                    href=""
-                    class="uppercase bg-transparent border-2 border-gray-100 text-gray-100 text-xs font-extrabold py-3 px-5 rounded-3xl">
-                    Find Out More
-                </a>
+        <div class="flex flex-wrap -m-6">
+            @foreach ($blogs as $index => $blog)
+            <div class="relative w-full lg:w-1/3 p-6">
+                <div class="relative z-10 {{ $index == 1 ? 'lg:mt-24' : '' }} bg-gray-700 rounded-lg">
+                    <div class="relative mb-8 h-52">
+                    <img class="w-full h-full rounded-lg object-cover object-top" src="/storage/students.jpeg" alt="">
+                    <div class="absolute bottom-0 left-0 ml-8 mb-6 px-3 pb-3 pt-1 inline-block bg-white rounded-b-2xl border-t-4 border-blue-500">
+                        <p class="text-xl font-bold">{{ \Carbon\Carbon::parse($blog->created_at)->format('d') }}</p>
+                        <p class="text-xs uppercase text-gray-300">{{ \Carbon\Carbon::parse($blog->created_at)->format('M') }}</p>
+                    </div>
+                    </div>
+                    <div class="px-14 pb-10"><a class="inline-block pt-4 text-lg text-white hover:text-gray-100 font-bold border-t border-gray-400" href="#">{{ $blog->title }}</a></div>
+                </div>
             </div>
+            @endforeach
         </div>
-        <div>
-            <img src="https://pixabay.com/get/g08147397373abbb2c669f7091f1e6a3da58fc81f683eef2d67b2d99a3cddd04b0837586b997a5b708bbfd4786e74bcc59da099c3c3bcb81074471b03126f9d7172b3002a62977d8ce6dc3e5b982858b6_640.jpg" alt="">
+        <div class="mt-14 lg:mt-24 text-center"><a class="inline-block py-5 px-12 mr-4 bg-blue-500 hover:bg-blue-600 rounded-full text-white font-bold transition duration-200" href="#">See all</a></div>
         </div>
-    </div>
+    </section>
 
 
 @endsection

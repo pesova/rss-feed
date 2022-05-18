@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', function(){
+    $blogs = Blog::limit(3)->get();
+    return view('home', compact('blogs'));
+})->name('home');
+
+Route::resource('blog', BlogController::class);
 
 Route::get('/following', function () {
-    return view('blog.index');
+    return view('following_blogs');
 });
