@@ -48,12 +48,12 @@
                             </a>
                         </li>
                         <li class="pb-1">
-                            <a href="/blog">
+                            <a href="{{ route('following.index') }}">
                                 Following Blogs
                             </a>
                         </li>
                         <li class="pb-1">
-                            <a href="/login">
+                            <a href="{{ route('following.manage') }}">
                                 Manage Blog feeds
                             </a>
                         </li>
@@ -66,16 +66,6 @@
                     </h3>
         
                     <ul class="py-4 sm:text-s pt-4 text-gray-400">
-                        <li class="pb-1">
-                            <a href="/">
-                                Address
-                            </a>
-                        </li>
-                        <li class="pb-1">
-                            <a href="/">
-                                Phone
-                            </a>
-                        </li>
                         <li class="pb-1">
                             <a href="/">
                                 Contact
@@ -93,11 +83,6 @@
                         <li class="pb-1">
                             <a href="/">
                                 Why we love tech
-                            </a>
-                        </li>
-                        <li class="pb-1">
-                            <a href="/">
-                                Why we love design
                             </a>
                         </li>
                         <li class="pb-1">

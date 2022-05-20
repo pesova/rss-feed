@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('feeds', function (Blueprint $table) {
+        Schema::create('feed_items', function (Blueprint $table) {
             $table->id();
+            $table->string('hash');
+            $table->string('title');
+            $table->text('description');
+            $table->string('author');
             $table->string('url');
-            $table->integer('frequency')->nullable();
-            $table->integer('preview_length')->nullable();
+            $table->foreignId('feed_id')->constrained()->onDelete('cascade');
+            $table->string('urlToImage')->nullable();
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feeds');
+        Schema::dropIfExists('feed_items');
     }
 };

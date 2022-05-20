@@ -15,8 +15,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::limit(3)->get();
-        return view('home', compact('blogs'));
+        $blogs = Blog::all();
+        return view('blog.index', compact('blogs'));
     }
 
     /**
@@ -40,7 +40,7 @@ class BlogController extends Controller
         $request->validated();
         $newImageName = uniqid() . '-' . $request->title . '.' . $request->file('image_path')->extension();
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('title'))));
-        $request->file('image_path')->storeAs('images', $newImageName);
+        $request->file('image_path')->storeAs('public', $newImageName);
 
         Blog::create([
             'title' => $request->input('title'),
@@ -62,7 +62,7 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        //
+        return view('blog.show', compact('blog'));
     }
 
     /**
@@ -73,7 +73,7 @@ class BlogController extends Controller
      */
     public function edit(Blog $blog)
     {
-        //
+        return view('blog.edit', compact('blog'));
     }
 
     /**
@@ -85,7 +85,21 @@ class BlogController extends Controller
      */
     public function update(UpdateBlogRequest $request, Blog $blog)
     {
-        //
+        $request->validated();
+        $newImageName = uniqid() . '-' . $request->title . '.' . $request->file('image_path')->extension();
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->input('title'))));
+        $request->file('image_path')->storeAs('public', $newImageName);
+
+        $blog->update([
+            'title' => $request->input('title'),
+            'short_desc' => $request->input('short_desc'),
+            'long_desc' => $request->input('long_desc'),
+            'slug' => $slug,
+            'image_path' => $newImageName,
+        ]);
+
+        return redirect()->route('home')
+            ->with('message', 'Your blog has been updated!');
     }
 
     /**

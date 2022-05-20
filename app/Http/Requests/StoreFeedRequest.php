@@ -13,7 +13,7 @@ class StoreFeedRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class StoreFeedRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'url' => 'required|url',
+            'frequency' => 'nullable'
         ];
     }
 }

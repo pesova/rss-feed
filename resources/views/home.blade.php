@@ -10,8 +10,8 @@
                     Do you want to become a developer?
                 </h1>
                 <a 
-                    href="{{ route('blog.index') }}"
-                    class="text-center bg-gray-50 text-gray-700 py-2 px-4 font-bold text-xl uppercase">
+                    href="{{ route('blog.show', 100) }}"
+                    class="text-center bg-gray-50 hover:bg-gray-200 rounded text-gray-700 py-2 px-4 font-bold text-xl uppercase">
                     Read More
                 </a>
             </div>
@@ -28,18 +28,18 @@
             <div class="relative w-full lg:w-1/3 p-6">
                 <div class="relative z-10 {{ $index == 1 ? 'lg:mt-24' : '' }} bg-gray-700 rounded-lg">
                     <div class="relative mb-8 h-52">
-                    <img class="w-full h-full rounded-lg object-cover object-top" src="/storage/students.jpeg" alt="">
+                    <img class="w-full h-full rounded-lg object-cover object-top" src="/storage/{{ $blog->image_path }}" alt="">
                     <div class="absolute bottom-0 left-0 ml-8 mb-6 px-3 pb-3 pt-1 inline-block bg-white rounded-b-2xl border-t-4 border-blue-500">
                         <p class="text-xl font-bold">{{ \Carbon\Carbon::parse($blog->created_at)->format('d') }}</p>
                         <p class="text-xs uppercase text-gray-300">{{ \Carbon\Carbon::parse($blog->created_at)->format('M') }}</p>
                     </div>
                     </div>
-                    <div class="px-14 pb-10"><a class="inline-block pt-4 text-lg text-white hover:text-gray-100 font-bold border-t border-gray-400" href="#">{{ $blog->title }}</a></div>
+                    <div class="px-14 pb-10"><a class="inline-block pt-4 text-lg text-white hover:text-gray-100 font-bold border-t border-gray-400" href="{{ route('blog.show', $blog->id) }}">{{ $blog->title }}</a></div>
                 </div>
             </div>
             @endforeach
         </div>
-        <div class="mt-14 lg:mt-24 text-center"><a class="inline-block py-5 px-12 mr-4 bg-blue-500 hover:bg-blue-600 rounded-full text-white font-bold transition duration-200" href="#">See all</a></div>
+        <div class="mt-14 lg:mt-24 text-center"><a class="inline-block py-5 px-12 mr-4 bg-blue-500 hover:bg-blue-600 rounded-full text-white font-bold transition duration-200" href="{{ route('blog.index') }}">See all</a></div>
         </div>
     </section>
 

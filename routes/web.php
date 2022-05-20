@@ -3,6 +3,7 @@
 use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\FeedController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,5 @@ Route::get('/', function(){
 
 Route::resource('blog', BlogController::class);
 
-Route::get('/following', function () {
-    return view('following_blogs');
-});
+Route::get('following/manage', [FeedController::class, 'manage'])->name('following.manage');
+Route::resource('following', FeedController::class);

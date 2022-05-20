@@ -15,7 +15,7 @@ class FeedController extends Controller
      */
     public function index()
     {
-        //
+        return view('following_blogs');
     }
 
     /**
@@ -36,7 +36,13 @@ class FeedController extends Controller
      */
     public function store(StoreFeedRequest $request)
     {
-        //
+        dd($request);
+        // store feed url
+        // get feed items and store
+
+        // write a service that gets recents items from feed
+
+
     }
 
     /**
@@ -82,5 +88,22 @@ class FeedController extends Controller
     public function destroy(Feed $feed)
     {
         //
+    }
+
+    public function manage(){
+        $feed = \Feeds::make('http://feeds.bbci.co.uk/news/business/rss.xml');
+
+        $data = array(
+            'title'     => $feed->get_title(),
+            'permalink' => $feed->get_permalink(),
+            'items'     => $feed->get_items(),
+          );
+
+          foreach ($data['items'] as $key => $item) {
+              dd($item, $item->get_permalink(), $item->get_date(), $item->get_title(), $item->get_description(), $item->get_link(), $item->get_id(true), $feed->get_image_link(), $feed->get_image_title(), $feed->get_image_url());
+          }
+
+        // dd($data);
+        return view('manage', $data);
     }
 }
