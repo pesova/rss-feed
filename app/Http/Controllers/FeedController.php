@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Feed;
+use App\Models\FeedItem;
+use App\Models\FollowingBlog;
 use App\Http\Requests\StoreFeedRequest;
 use App\Http\Requests\UpdateFeedRequest;
 
@@ -15,7 +18,9 @@ class FeedController extends Controller
      */
     public function index()
     {
-        return view('following_blogs');
+        $following_blogs = FollowingBlog::get();
+        $feedItems = FeedItem::latest()->paginate(20);
+        return view('following_blogs', compact('following_blogs', 'feedItems'));
     }
 
     /**
@@ -36,12 +41,41 @@ class FeedController extends Controller
      */
     public function store(StoreFeedRequest $request)
     {
-        dd($request);
+        // dd($request);
         // store feed url
-        // get feed items and store
 
-        // write a service that gets recents items from feed
-
+        $feed = \Feeds::make($request->url);
+        $feed->set_item_limit(3);
+        if ($feed->error()) {
+            return back()->with('error', 'Unable verify the feed url');
+        }
+        // store inside db transaction
+        DB::beginTransaction();
+        try {
+            $saveFeed = Feed::create($request->validated());
+            $getFeedItems = $feed->get_items();
+            $feedItems = [];
+    
+            foreach ($getFeedItems as $index => $item) {
+                if ($request->frequency && $request->frequency == $index) {
+                    break;
+                }
+                $feedItems[] = [
+                    'hash' => $item->get_id(true),
+                    'title' => $item->get_title(),
+                    'url' => $item->get_link(),
+                    'urlToImage' => $feed->get_image_url(),
+                    'author' => $item->get_author()->name ?? '',
+                    'description' => $item->get_description(),
+                ];
+            }
+            $saveFeed->feedItems()->createMany($feedItems);
+            DB::commit();
+            return redirect()->route('feed.index')->with('message', 'Feed added successfully');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', 'Something went wrong, please add a lower frequency and try again');
+        }
 
     }
 
@@ -87,23 +121,14 @@ class FeedController extends Controller
      */
     public function destroy(Feed $feed)
     {
-        //
+        // delete feed and feed items
+        $feed->delete();
+        return redirect()->route('feed.index')->with('message', 'Feed deleted successfully');
+
     }
 
     public function manage(){
-        $feed = \Feeds::make('http://feeds.bbci.co.uk/news/business/rss.xml');
-
-        $data = array(
-            'title'     => $feed->get_title(),
-            'permalink' => $feed->get_permalink(),
-            'items'     => $feed->get_items(),
-          );
-
-          foreach ($data['items'] as $key => $item) {
-              dd($item, $item->get_permalink(), $item->get_date(), $item->get_title(), $item->get_description(), $item->get_link(), $item->get_id(true), $feed->get_image_link(), $feed->get_image_title(), $feed->get_image_url());
-          }
-
-        // dd($data);
-        return view('manage', $data);
+        $feeds = Feed::get();
+        return view('manage', compact('feeds'));
     }
 }

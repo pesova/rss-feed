@@ -24,8 +24,21 @@ class StoreFeedRequest extends FormRequest
     public function rules()
     {
         return [
-            'url' => 'required|url',
-            'frequency' => 'nullable'
+            'url' => 'required|url|unique:feeds,url',
+            'frequency' => 'nullable',
+            'preview_length' => 'nullable'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'url.unique' => 'This feed has already been added.',
         ];
     }
 }

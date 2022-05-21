@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
@@ -48,12 +48,12 @@
                             </a>
                         </li>
                         <li class="pb-1">
-                            <a href="{{ route('following.index') }}">
+                            <a href="{{ route('feed.index') }}">
                                 Following Blogs
                             </a>
                         </li>
                         <li class="pb-1">
-                            <a href="{{ route('following.manage') }}">
+                            <a href="{{ route('feed.manage') }}">
                                 Manage Blog feeds
                             </a>
                         </li>
@@ -100,7 +100,12 @@
     </div>
 
     <!-- Scripts -->
-    {{-- <script src="/js/app.js"></script> --}}
+
+    {{-- yield script --}}
+
+    <script src="{{ asset('js/app.js') }}"></script>
+    @yield('script')
+    
 
 
     

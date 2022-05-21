@@ -17,11 +17,7 @@ class FeedFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'author' => $this->faker->name,
             'url' => $this->faker->url,
-            'urlToImage' => $this->faker->imageUrl,
         ];
     }
 }

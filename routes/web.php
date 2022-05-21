@@ -23,5 +23,5 @@ Route::get('/', function(){
 
 Route::resource('blog', BlogController::class);
 
-Route::get('following/manage', [FeedController::class, 'manage'])->name('following.manage');
-Route::resource('following', FeedController::class);
+Route::get('following/manage', [FeedController::class, 'manage'])->name('feed.manage');
+Route::resource('feed', FeedController::class);
