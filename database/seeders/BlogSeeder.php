@@ -55,7 +55,7 @@ class BlogSeeder extends Seeder
                 DO NOT FORGET TO SLEEP 8 HOURS A DAY.
                 YOUR BRAIN NEEDS TO COLLECT THE GARBAGE AND RID OF THEM.',
 
-            'image_path' => 'writing.jpg',
+            'image_path' => 'writing.jpeg',
         ]);
 
 

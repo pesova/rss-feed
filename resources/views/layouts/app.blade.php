@@ -48,7 +48,7 @@
                             </a>
                         </li>
                         <li class="pb-1">
-                            <a href="{{ route('feed.index') }}">
+                            <a href="{{ route('following') }}">
                                 Following Blogs
                             </a>
                         </li>
@@ -67,8 +67,8 @@
         
                     <ul class="py-4 sm:text-s pt-4 text-gray-400">
                         <li class="pb-1">
-                            <a href="/">
-                                Contact
+                            <a href="mailto:dev@pesovatech.com"">
+                                Email Us
                             </a>
                         </li>
                     </ul>
@@ -76,20 +76,16 @@
         
                 <div>
                     <h3 class="text-l sm:font-bold text-gray-100">
-                        Latest posts
+                        Latest post
                     </h3>
         
                     <ul class="py-4 sm:text-s pt-4 text-gray-400">
                         <li class="pb-1">
-                            <a href="/">
-                                Why we love tech
+                            <a href="{{ route('blog.show', 100) }}">
+                                Become a developer
                             </a>
                         </li>
-                        <li class="pb-1">
-                            <a href="/">
-                                Why to use Laravel
-                            </a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>

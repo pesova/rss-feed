@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\Feed;
+use App\Jobs\FeedJob;
 use App\Models\FeedItem;
 use App\Models\FollowingBlog;
 use App\Http\Requests\StoreFeedRequest;
@@ -18,6 +19,7 @@ class FeedController extends Controller
      */
     public function index()
     {
+        FeedJob::dispatch();
         $following_blogs = FollowingBlog::get();
         $feedItems = FeedItem::latest()->paginate(20);
         return view('following_blogs', compact('following_blogs', 'feedItems'));
@@ -45,7 +47,6 @@ class FeedController extends Controller
         // store feed url
 
         $feed = \Feeds::make($request->url);
-        $feed->set_item_limit(3);
         if ($feed->error()) {
             return back()->with('error', 'Unable verify the feed url');
         }
@@ -71,7 +72,7 @@ class FeedController extends Controller
             }
             $saveFeed->feedItems()->createMany($feedItems);
             DB::commit();
-            return redirect()->route('feed.index')->with('message', 'Feed added successfully');
+            return redirect()->route('following')->with('message', 'Feed added successfully');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->with('error', 'Something went wrong, please add a lower frequency and try again');
@@ -110,7 +111,9 @@ class FeedController extends Controller
      */
     public function update(UpdateFeedRequest $request, Feed $feed)
     {
-        //
+
+        $feed->update($request->validated());
+        return redirect()->route('following')->with('message', 'Feed updated successfully');
     }
 
     /**
@@ -123,8 +126,7 @@ class FeedController extends Controller
     {
         // delete feed and feed items
         $feed->delete();
-        return redirect()->route('feed.index')->with('message', 'Feed deleted successfully');
-
+        return redirect()->route('following')->with('message', 'Feed deleted successfully');
     }
 
     public function manage(){

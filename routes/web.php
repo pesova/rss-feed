@@ -4,6 +4,7 @@ use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\FeedItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +25,7 @@ Route::get('/', function(){
 Route::resource('blog', BlogController::class);
 
 Route::get('following/manage', [FeedController::class, 'manage'])->name('feed.manage');
+Route::get('following', [FeedController::class, 'index'])->name('following');
 Route::resource('feed', FeedController::class);
+
+Route::post('feeditem/{id}', [FeedItemController::class, 'markAsRead'])->name('feeditem.markread');

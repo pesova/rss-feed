@@ -13,7 +13,7 @@ class UpdateFeedRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class UpdateFeedRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'frequency' => 'required|integer|min:1',
+            'preview_length' => 'nullable|integer',
         ];
     }
 }
