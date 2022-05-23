@@ -2,6 +2,7 @@
 
 use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FeedItemController;
@@ -29,3 +30,10 @@ Route::get('following', [FeedController::class, 'index'])->name('following');
 Route::resource('feed', FeedController::class);
 
 Route::post('feeditem/{id}', [FeedItemController::class, 'markAsRead'])->name('feeditem.markread');
+
+Route::get('/call-artisan', function(){
+    $feed_schedule = Artisan::call('schedule:run');
+    $work_feed = Artisan::call('queue:listen');
+
+    return '<h1>Feeds updated</h1>';
+});
