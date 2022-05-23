@@ -41,15 +41,14 @@ class FeedJob implements ShouldQueue
             foreach ($feeds as $feed) {
                 $rss_feed = \Feeds::make($feed->url);
                 // update or create feed
-                $getFeedItems = $rss_feed->get_items();
+                $getRssFeedItems = $rss_feed->get_items();
                 $feedItems = [];
                 Log::info('FeedJob: ' . $feed->url);
         
-                foreach ($getFeedItems as $index => $item) {
+                foreach ($getRssFeedItems as $index => $item) {
                     if ($feed->frequency && $feed->frequency == $index) {
                         break;
                     }
-                    Log::info('FeedJob: ' . $item->get_title());
                     $feedItems[] = [
                         'hash' => $item->get_id(true),
                         'title' => $item->get_title(),
@@ -62,10 +61,9 @@ class FeedJob implements ShouldQueue
                 }
 
                 foreach ($feedItems as $key => $itemfeed) {
-                    Log::info('FeedJobWhole: ' . $itemfeed['hash']);
-                    Log::info('FeedJobTitle: ' . $itemfeed['title']);
+
                     $checkwhatupdated = $feed->feedItems()->firstOrCreate([
-                        'hash' => $feed->hash,
+                        'hash' => $feed->feedItems()->where('hash', $itemfeed['hash'])->first()->hash,
                     ], [
                         'hash' => $itemfeed['hash'],
                         'title' => $itemfeed['title'],
@@ -80,7 +78,7 @@ class FeedJob implements ShouldQueue
                 
             }
             DB::commit();
-            Log::info('Feed added successfully');
+            Log::info('Feed Commmit read successfully');
         } catch (\Exception $e) {
             DB::rollback();
             Log::info('LOG ERROR :' . $e->getMessage());
